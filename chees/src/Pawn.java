@@ -11,25 +11,33 @@ public class Pawn extends ChessPiece {
     @Override
     public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
         if (checkPos(line) && checkPos(column) && checkPos(toLine) && checkPos(toColumn) && chessBoard.board[line][column] != null) {
-            int dir;
-            int start;
+            if (column == toColumn) {
+                int dir;
+                int start;
 
-            if (color.equals("White")) {
-                dir = 1;
-                start = 1;
+                if (color.equals("White")) {
+                    dir = 1;
+                    start = 1;
+                } else {
+                    dir = -1;
+                    start = 6;
+                }
+
+                if (line + dir == toLine) {
+                    return chessBoard.board[toLine][toColumn] == null;
+                }
+
+                if (line == start && line + 2 * dir == toLine) {
+                    return chessBoard.board[toLine][toColumn] == null && chessBoard.board[line + dir][column] == null;
+                }
+
             } else {
-                dir = -1;
-                start = 6;
-            }
 
-            if (line + dir == toLine) {
-                return chessBoard.board[toLine][toColumn] == null;
+                if ((column - toColumn == 1 || column - toColumn == -1) && (line - toLine == 1 || line - toLine == -1) &&
+                        chessBoard.board[toLine][toColumn] != null) {
+                    return !chessBoard.board[toLine][toColumn].getColor().equals(color);
+                } else return false;
             }
-
-            if (line == start && line + 2 * dir == toLine) {
-                return chessBoard.board[toLine][toColumn] == null && chessBoard.board[line + dir][column] == null;
-            }
-
         }
         return false;
     }

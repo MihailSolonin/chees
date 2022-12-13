@@ -11,11 +11,12 @@ public class Horse extends ChessPiece {
     @Override
     public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
         if (checkPos(line) && checkPos(column) && checkPos(toLine) && checkPos(toColumn)) {
-            if (line != toLine && column != toColumn) {
+            if (line != toLine && column != toColumn && (chessBoard.board[toLine][toColumn] == null ||
+                    !chessBoard.board[toLine][toColumn].color.equals(this.color)) &&
+                    chessBoard.board[line][column] != null) {
                 if (!chessBoard.board[line][column].equals(this)) {
                     return false;
                 }
-
 
                 int[][] positions = new int[][]{
                         {line - 2, column - 1}, {line - 2, column + 1},
